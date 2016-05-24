@@ -16,17 +16,28 @@ constant SOUND_BIT_WIDTH : integer := 24;
 -- ***** Sound Selector *****
     -- selects next sound sample to feed FIFOs based on drum hit
     
-    COMPONENT sound_selector IS
-      PORT ( 
-              CLOCK_50 : IN STD_LOGIC;
-              RESET : IN STD_LOGIC;
-    
-              -- SPIKE DETECTOR
-              lt_hit, rt_hit : IN STD_LOGIC;
-              --lt_vol, rt_vol : IN STD_LOGIC_VECTOR(1 downto 0);
-    
-			--flash address
-			FL_addr : out std_logic_vector(22 downto 0);
+--		COMPONENT top IS
+--		Port (
+--				clk : in std_logic;
+--				scl : out std_logic;
+--				sda : inout std_logic;
+--				rst_n : in std_logic;
+--				X_Accel : in std_logic_vector(15 downto 0);
+--				Y_Accel : in std_logic_vector(15 downto 0);
+--				Z_Accel : in std_logic_vector(15 downto 0);
+--				flag : out std_logic
+--	);
+--	end component top;
+	
+	component flash_to_bram IS
+  PORT ( 
+          CLOCK_50, RESET : IN STD_LOGIC;
+			 load_ram : in std_logic;
+			 
+			 ------------------------------------------------------------------------------------
+			 --flash reader signals
+			 --Address
+			 FL_addr : out std_logic_vector(22 downto 0);
 			 
 			 --Data
 			 FL_dq : in std_logic_vector(7 downto 0);
@@ -42,6 +53,82 @@ constant SOUND_BIT_WIDTH : integer := 24;
 			 
 			 --write enable
 			 FL_wr_en : out std_logic; -- set always high because we never want to write over it
+			 --------------------------------------------------------------------------------------
+
+			 rt_dout : out std_logic_vector(23 downto 0);
+			 rt_raddr : in std_logic_vector(14 downto 0);
+			 
+          lt_dout : out std_logic_vector(23 downto 0);
+			 lt_raddr : in std_logic_vector(14 downto 0)
+			 
+			 
+			 
+			 
+        );
+END component flash_to_bram;
+	
+	
+	component block_ram IS
+  PORT ( 
+          CLOCK_50 : IN STD_LOGIC;
+
+          dout : out std_logic_vector(23 downto 0);
+			 
+			 din : in std_logic_vector(23 downto 0);
+			 
+			 wr_en : in std_logic;
+			 
+			 waddr : in std_logic_vector(14 downto 0);
+			 
+			 raddr : in std_logic_vector(14 downto 0)
+			 
+        );
+END component block_ram;
+
+	
+	
+	
+	
+	COMPONENT Sound_Connect IS
+		PORT (
+				clk : in std_logic;    
+				rst_n : in std_logic;  
+				beat : out std_logic;
+				beat_int : out std_logic_vector(1 downto 0);
+				scl : out std_logic;
+				sda : inout std_logic
+			);
+	end COMPONENT Sound_Connect;
+	 
+	 
+	 
+	 
+    COMPONENT sound_selector IS
+      PORT ( 
+              CLOCK_50 : IN STD_LOGIC;
+              RESET : IN STD_LOGIC;
+    
+              -- SPIKE DETECTOR
+              lt_hit, rt_hit : IN STD_LOGIC;
+              --lt_vol, rt_vol : IN STD_LOGIC_VECTOR(1 downto 0);
+    
+			--flash address
+--			FL_addr : out std_logic_vector(22 downto 0);
+--			 
+--			 --Data
+--			 FL_dq : in std_logic_vector(7 downto 0);
+--			 
+--			 --Chip Enable
+--			 FL_ce : out std_logic;
+--			 
+--			 --output enable
+--			 FL_oe : out std_logic;
+--			 
+--			 --ready/busy
+--			 FL_ready : in std_logic;
+--			 
+--			 --write enable
+--			 FL_wr_en : out std_logic; -- set always high because we never want to write over it
 	 
               -- FIFOS
               lt_full : IN STD_LOGIC;

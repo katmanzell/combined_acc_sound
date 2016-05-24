@@ -17,24 +17,25 @@ ENTITY sound_selector IS
 			 ------------------------------------------------------------------------------------
 			 --flash reader signals
 			 --Address
-			 FL_addr : out std_logic_vector(22 downto 0);
-			 
-			 --Data
-			 FL_dq : in std_logic_vector(7 downto 0);
-			 
-			 --Chip Enable
-			 FL_ce : out std_logic;
-			 
-			 --output enable
-			 FL_oe : out std_logic;
-			 
-			 --ready/busy
-			 FL_ready : in std_logic;
-			 
-			 --write enable
-			 FL_wr_en : out std_logic; -- set always high because we never want to write over it
+--			 FL_addr : out std_logic_vector(22 downto 0);
+--			 
+--			 --Data
+--			 FL_dq : in std_logic_vector(7 downto 0);
+--			 
+--			 --Chip Enable
+--			 FL_ce : out std_logic;
+--			 
+--			 --output enable
+--			 FL_oe : out std_logic;
+--			 
+--			 --ready/busy
+--			 FL_ready : in std_logic;
+--			 
+--			 --write enable
+--			 FL_wr_en : out std_logic; -- set always high because we never want to write over it
 			 --------------------------------------------------------------------------------------
-			 
+			 lt_addr : OUT STD_LOGIC_VECTOR(14 downto 0);
+			 rt_addr : OUT STD_LOGIC_VECTOR(14 downto 0);
           -- FIFOS
           lt_full : IN STD_LOGIC;
           lt_sound : OUT STD_LOGIC_VECTOR( SOUND_BIT_WIDTH-1 downto 0 );
@@ -49,7 +50,7 @@ END ENTITY sound_selector;
 ARCHITECTURE behavioral OF sound_selector IS
 
   --CONSTANTS - set to match sounds
-  constant LT_MAX : integer := 55391;
+  constant LT_MAX : integer := sin_values'length;   -- use 55391 for using the snare wave in flash
   constant LT_LOOP : integer := 1000000;
   constant RT_MAX : integer := sin_values'length;
   constant RT_LOOP : integer := 1000000;
@@ -77,7 +78,7 @@ variable flash_data : std_logic_vector(23 downto 0);
   BEGIN
 
   -- SIN WAV
-  --lt_sound <= sin_values(lt_idx);
+  lt_sound <= sin_values(lt_idx);
   rt_sound <= sin_values(rt_idx);
 
   -- SNARE WAV
@@ -116,54 +117,71 @@ variable flash_data : std_logic_vector(23 downto 0);
 	
       -- LEFT FIFO CONTROL
 		
-		--Zaretsky's edits
 		if (lt_hit = '1') then
 			lt_idx <= 0;
 			lt_loop_cnt <= 0;
-      elsif ( lt_loop_cnt < LT_LOOP ) then
-			elsif ( lt_idx < LT_MAX and lt_full = '0' and FL_ready = '1') then
-				--lt_wr_en <= '1';
-				rt_wr_en <= '1';
-				
-				if (clone_FL_ce = '1') then
-					lt_address := lt_idx + lt_start_addr;
-					FL_addr <= std_logic_vector(to_unsigned(lt_address, FL_addr'length));
-					lt_idx <= lt_idx + 1;
-				
-	
-					if(byte_count = 1) then
-						flash_data(23 downto 16) := FL_dq;
-					elsif(byte_count = 2) then 
-						flash_data(15 downto 8) := FL_dq;
-					elsif(byte_count = 3) then
-						flash_data(7 downto 0) := FL_dq;
-					elsif(byte_count = 4) then
-						lt_wr_en <= '1';
-						lt_sound <= flash_data; 
-						byte_count := 0;
-					end if;	
-				
-					byte_count := byte_count + 1;
-					FL_ce <= '0';
-					clone_FL_ce := '0';
-					
-				elsif (clone_FL_ce = '0') then
-					FL_ce <= '1';
-					clone_FL_ce := '1';
-				
-				end if;
-			--else
-				--FL_ce <= '1';
-				
-			elsif ( lt_idx >= LT_MAX ) then
+      elsif ( lt_loop_cnt < lt_LOOP ) then
+			if ( lt_idx < lt_MAX and lt_full = '0') then
+				lt_wr_en <= '1';
+				rt_wr_en <= '1';		
+				lt_idx <= lt_idx + 1;
+			elsif ( lt_idx >= lt_MAX ) then
 				lt_loop_cnt <= lt_loop_cnt + 1;
 				lt_idx <= 0;
-				
-				
 			end if;
+		end if;
+ 
+		lt_addr <= std_logic_vector(to_unsigned(lt_idx, lt_addr'length));
 		
 		
 		
+		
+--		--Zaretsky's edits WITH flash reading 
+--		if (lt_hit = '1') then
+--			lt_idx <= 0;
+--			lt_loop_cnt <= 0;
+--      elsif ( lt_loop_cnt < LT_LOOP ) then
+--			elsif ( lt_idx < LT_MAX and lt_full = '0' and FL_ready = '1') then
+--				--lt_wr_en <= '1';
+--				rt_wr_en <= '1';
+--				
+--				if (clone_FL_ce = '1') then
+--					lt_address := lt_idx + lt_start_addr;
+--					FL_addr <= std_logic_vector(to_unsigned(lt_address, FL_addr'length));
+--					lt_idx <= lt_idx + 1;
+--				
+--	
+--					if(byte_count = 1) then
+--						flash_data(23 downto 16) := FL_dq;
+--					elsif(byte_count = 2) then 
+--						flash_data(15 downto 8) := FL_dq;
+--					elsif(byte_count = 3) then
+--						flash_data(7 downto 0) := FL_dq;
+--					elsif(byte_count = 4) then
+--						lt_wr_en <= '1';
+--						lt_sound <= flash_data; 
+--						byte_count := 0;
+--					end if;	
+--				
+--					byte_count := byte_count + 1;
+--					FL_ce <= '0';
+--					clone_FL_ce := '0';
+--					
+--				elsif (clone_FL_ce = '0') then
+--					FL_ce <= '1';
+--					clone_FL_ce := '1';
+--				
+--				end if;
+--			--else
+--				--FL_ce <= '1';
+--				
+--			elsif ( lt_idx >= LT_MAX ) then
+--				lt_loop_cnt <= lt_loop_cnt + 1;
+--				lt_idx <= 0;
+--			end if;
+		
+		
+	--NOT Zaretsky's code	
 		--This works!
 --		if (lt_hit = '1') then
 --			lt_idx <= 0;
@@ -198,6 +216,9 @@ variable flash_data : std_logic_vector(23 downto 0);
 				rt_idx <= 0;
 			end if;
 		end if;
+		
+		rt_addr <= std_logic_vector(to_unsigned(rt_idx, rt_addr'length));
+		
  end if;
 		
 

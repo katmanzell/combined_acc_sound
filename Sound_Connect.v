@@ -2,11 +2,15 @@ module Sound_Connect (
 	clk,    // Clock
 	rst_n,  // Asynchronous reset active low
 	beat,
-	beat_int 
+	beat_int,
+	scl,
+	sda 
 );
 input clk, rst_n;
 output beat;
 output [1:0] beat_int;
+output scl;
+inout sda;
 wire beat;
 wire [1:0] beat_int;
 

@@ -5,10 +5,15 @@ USE work.altera_drums.all;
 
 ENTITY part1 IS
    PORT ( CLOCK_50, CLOCK_27, RESET, AUD_DACLRCK   : IN    STD_LOGIC;
+
+    low_RESET : in std_logic;
+
           AUD_ADCLRCK, AUD_BCLK, AUD_ADCDAT  : IN    STD_LOGIC;
           I2C_SDAT                      : INOUT STD_LOGIC;
           I2C_SCLK, AUD_DACDAT, AUD_XCK : OUT   STD_LOGIC;
-          lt_hit, rt_hit : IN STD_LOGIC;
+          --lt_hit : in std_logic;
+			 
+			 rt_hit : IN STD_LOGIC;
 			 
 			 --Forcing write ready
 			 write_ready_forced : in std_logic;
@@ -35,6 +40,15 @@ ENTITY part1 IS
 			 FL_wr_en : out std_logic; -- set always high because we never want to write over it
 			 --------------------------------------------------------------------------------------
 			 
+			 --Sound Connect
+			 
+			 scl : out std_logic;
+				
+			 sda : inout std_logic;
+			 
+			 -- debug
+			 hit_happened : out std_logic;
+			 
 			 
           -- SIMULATION
           lt_signal, rt_signal : OUT std_logic_vector(23 downto 0)
@@ -48,10 +62,52 @@ ARCHITECTURE Behavior OF part1 IS
    signal lt_sin_out, rt_sin_out : std_logic_vector(23 downto 0);
    signal left_full, right_full, left_empty, right_empty, lt_wr_en, rt_wr_en, lt_read_en, rt_read_en : std_logic;
  
+	signal lt_hit : std_logic;
+ 
 BEGIN
 
 lt_signal <= lt_sin_out;
 rt_signal <= rt_sin_out;
+
+
+--not_rese
+hit_detect : process(lt_hit, rt_hit, RESET)
+begin
+	if (RESET = '1') then
+		hit_happened <= '0';
+	elsif (lt_hit = '1') then
+		hit_happened <= '1';
+	end if;
+end process;
+
+sound_connect_map : Sound_Connect PORT map (
+				clk => CLOCK_50,
+				rst_n => low_RESET,
+				beat => lt_hit,
+				--beat_int 
+				scl => scl,
+				sda => sda
+			);
+	
+flash_to_bram_map : flash_to_bram port map(
+			CLOCK_50 => CLOCK_50,
+			RESET => RESET,
+			 load_ram => load_ram,
+			 FL_addr => FL_addr,
+			 FL_dq => FL_dq,
+			 FL_ce => FL_ce,
+			 FL_oe => FL_oe,
+			 FL_ready => FL_ready,
+			 FL_wr_en => FL_wr_en,
+			 rt_dout => -- signal go to fifos (add data ports)
+			 rt_raddr => rt_raddr -- from sound selector)
+          lt_dout => -- signal go to fifo
+			 lt_raddr => lt_raddr
+); -- fix up sound selector ports - get rid of flash stuff we arent using. bypass data in ports
+			 
+
+			 
+			 
 
 fifo_left_map : fifo 
            generic map ( FIFO_DATA_WIDTH => 24, 
@@ -104,7 +160,8 @@ audio_controller_map : audio_controller port map (CLOCK_50 => CLOCK_50,
 sound_select_map : sound_selector port map (
           CLOCK_50 => CLOCK_50,
           RESET => RESET,
-          lt_hit => lt_hit, rt_hit => rt_hit,
+          lt_hit => lt_hit, 
+			 rt_hit => rt_hit,
           --lt_vol => lt_vol, rt_vol => rt_vol,
           lt_full => left_full,
           lt_sound => lt_sin_out,
