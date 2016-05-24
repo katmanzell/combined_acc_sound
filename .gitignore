@@ -1,0 +1,11 @@
+sim/
+*.bak
+*.bak~
+*.vhd~
+
+# Only commit these file types
+!*.vhd
+!*.v
+!*.qpf
+!*.qsf
+!WAV/
