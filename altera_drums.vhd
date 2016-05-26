@@ -129,7 +129,10 @@ END component block_ram;
 --			 
 --			 --write enable
 --			 FL_wr_en : out std_logic; -- set always high because we never want to write over it
-	 
+	      lt_addr : OUT STD_LOGIC_VECTOR(14 downto 0);
+	      rt_addr : OUT STD_LOGIC_VECTOR(14 downto 0);
+
+
               -- FIFOS
               lt_full : IN STD_LOGIC;
               lt_sound : OUT STD_LOGIC_VECTOR( SOUND_BIT_WIDTH-1 downto 0 );

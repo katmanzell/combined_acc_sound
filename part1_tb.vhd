@@ -16,6 +16,19 @@ component part1 IS
           lt_hit, rt_hit : IN STD_LOGIC;
 	
 		write_ready_forced : in std_logic;
+
+	FL_addr : out std_logic_vector(22 downto 0);
+	FL_dq : in std_logic_vector;
+	FL_ce : out std_logic;
+	FL_oe : out std_logic;
+	FL_ready : in std_logic;
+	FL_wr_en : out std_logic;
+
+	scl : out std_logic;
+	sda : inout std_logic;
+
+	hit_happened : out std_logic;
+
           -- SIMULATION
           lt_signal, rt_signal : OUT std_logic_vector(23 downto 0)
     );

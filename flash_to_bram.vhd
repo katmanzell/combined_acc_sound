@@ -50,6 +50,8 @@ signal lt_wr_en : std_logic;
 signal fl_data : std_logic_vector(23 downto 0); 
 signal rt_wr_addr, lt_wr_addr : std_logic_vector(14 downto 0);
 
+constant MAX : integer := 32768;
+
 begin
 
 
@@ -63,7 +65,7 @@ blockram_rt_map : block_ram port map (
 												);
 
 												
-blockram_rt_map : block_ram port map (
+blockram_lt_map : block_ram port map (
 													CLOCK_50 => CLOCK_50,
 													dout => lt_dout,
 													din => fl_data,
@@ -90,14 +92,14 @@ variable flash_data : std_logic_vector(23 downto 0);
 	
 	elsif(rising_edge(CLOCK_50)) then
 		
-		
+		-- add fifo wr signals to sync with data read
 		if(load_ram = '1' and addr_inc < MAX) then
 	
 			FL_addr <= std_logic_vector(to_unsigned(addr_inc, FL_addr'length));
 			
-			if(FL_ready = '1') then
-					data <= FL_dq;
-			end if;
+			--if(FL_ready = '1') then
+					--data <= FL_dq;
+			--end if;
 			
 			lt_wr_en <= '0';
 			rt_wr_en <= '0';
