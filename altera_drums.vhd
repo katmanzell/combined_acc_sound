@@ -29,6 +29,47 @@ constant SOUND_BIT_WIDTH : integer := 24;
 --	);
 --	end component top;
 	
+	Component Accelerometer_Reader is
+	port (
+	clk : in std_logic;
+	scl : out std_logic;
+	sda : inout std_logic;
+	rst_n : in std_logic;
+	X_Accel : out std_logic_vector(15 downto 0);
+	Y_Accel : out std_logic_vector(15 downto 0);
+	Z_Accel : out std_logic_vector(15 downto 0)
+);
+	end component Accelerometer_Reader;
+	
+	
+	component Beat_Generator is
+	port (
+	clk : in std_logic;
+	rst : in std_logic;
+	X_coordinate : in std_logic_vector(15 downto 0);
+	Y_coordinate : in std_logic_vector(15 downto 0);
+	Z_coordinate : in std_logic_vector(15 downto 0);
+	beat_en : out std_logic;
+	beat_intensity : out std_logic_vector(1 downto 0)
+);
+ end component Beat_Generator;
+	
+	
+	component scale_clock is
+  port (
+    clk_50Mhz : in  std_logic;
+    rst       : in  std_logic;
+    clk_Hz   : out std_logic);
+end component scale_clock;
+	
+	component de2lcd IS
+	PORT(reset, clk_50Mhz				: IN	STD_LOGIC;
+		 LCD_RS, LCD_E, LCD_ON, RESET_LED, SEC_LED		: OUT	STD_LOGIC;
+		 LCD_RW						: BUFFER STD_LOGIC;
+		 DATA_BUS				: INOUT	STD_LOGIC_VECTOR(7 DOWNTO 0));
+END component de2lcd;
+	
+	
 	component flash_to_bram IS
   PORT ( 
           CLOCK_50, RESET : IN STD_LOGIC;

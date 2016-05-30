@@ -49,10 +49,16 @@ END ENTITY sound_selector;
 
 ARCHITECTURE behavioral OF sound_selector IS
 
-  --CONSTANTS - set to match sounds
+  --CONSTANTS - set to match sounds ***Snare wave***
+--  constant LT_MAX : integer := 55391;   -- use 55391 for using the snare wave in flash
+--  constant LT_LOOP : integer := 5;
+--  constant RT_MAX : integer := 55391;   --sin_values'length;
+--  constant RT_LOOP : integer := 5;
+
+ -- sin wave stuff
   constant LT_MAX : integer := sin_values'length;   -- use 55391 for using the snare wave in flash
   constant LT_LOOP : integer := 1000000;
-  constant RT_MAX : integer := sin_values'length;
+  constant RT_MAX : integer := sin_values'length;   --sin_values'length;
   constant RT_LOOP : integer := 1000000;
   
   constant lt_start_addr : integer := 0;
@@ -67,13 +73,13 @@ BEGIN
 
 
 
-sound_select : PROCESS (CLOCK_50, RESET, lt_hit, rt_hit, lt_idx, rt_idx, FL_ready)
+sound_select : PROCESS (CLOCK_50, RESET, lt_hit, rt_hit, lt_idx, rt_idx)
 
 variable	addr_inc : integer := 0;
 variable lt_address, rt_address : integer := 0;
-variable byte_count : integer := 0;
-variable clone_FL_ce : std_logic := '1';
-variable flash_data : std_logic_vector(23 downto 0);
+--variable byte_count : integer := 0;
+--variable clone_FL_ce : std_logic := '1';
+--variable flash_data : std_logic_vector(23 downto 0);
 
   BEGIN
 
@@ -100,12 +106,12 @@ variable flash_data : std_logic_vector(23 downto 0);
       rt_loop_cnt <= RT_LOOP;
 		
 		--flash reset signals---
-		FL_addr <= (others => '0');
-		FL_wr_en <= '1';
-		FL_ce <= '1';
-		FL_oe <= '0';
+		--FL_addr <= (others => '0');
+		--FL_wr_en <= '1';
+		--FL_ce <= '1';
+		--FL_oe <= '0';
 	
-		addr_inc := 0;
+		--addr_inc := 0;
 		-------------------------
    elsif(rising_edge(CLOCK_50)) then
 

@@ -20,7 +20,7 @@ begin
 
   gen_clk : process (clk_50Mhz, rst)
   begin  -- process gen_clk
-    if rst = '1' then
+    if rst = '0' then
       clk_Hz_i   <= '0';
       prescaler   <= (others => '0');
     elsif rising_edge(clk_50Mhz) then   -- rising clock edge

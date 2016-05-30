@@ -124,8 +124,8 @@ variable flash_data : std_logic_vector(23 downto 0);
 			addr_inc := 0;
 			
 		end if;
-	else
-		FL_ce <= '1';
+--	else
+---		FL_ce <= '1';
 		
 	end if;
 		

@@ -66,8 +66,9 @@ parameter CFG_TYPE				= 8'h01;
 parameter MIN_ROM_ADDRESS		= 6'h00;
 parameter MAX_ROM_ADDRESS		= 6'h32;
 
+// These are the original settings for the file we got originally
 parameter AUD_LINE_IN_LC		= 9'h01A;
-parameter AUD_LINE_IN_RC		= 9'h01A;
+parameter AUD_LINE_IN_RC		= 9'h01A; 
 parameter AUD_LINE_OUT_LC		= 9'h07B;
 parameter AUD_LINE_OUT_RC		= 9'h07B;
 parameter AUD_ADC_PATH			= 9'd149;
@@ -76,6 +77,19 @@ parameter AUD_POWER				= 9'h000;
 parameter AUD_DATA_FORMAT		= 9'd73;
 parameter AUD_SAMPLE_CTRL		= 9'd0;
 parameter AUD_SET_ACTIVE		= 9'h001;
+
+//These are the settings from the synthesizer
+//parameter AUD_LINE_IN_LC		= 9'h001A;
+//parameter AUD_LINE_IN_RC		= 9'h021A; 
+//parameter AUD_LINE_OUT_LC		= 9'h047B;
+//parameter AUD_LINE_OUT_RC		= 9'h067B;
+//parameter AUD_ADC_PATH			= 9'h08f8;
+//parameter AUD_DAC_PATH			= 9'h0A06;
+//parameter AUD_POWER				= 9'h0c00;
+//parameter AUD_DATA_FORMAT		= 9'h0e01;
+//parameter AUD_SAMPLE_CTRL		= 9'h1002;
+//parameter AUD_SET_ACTIVE		= 9'h1201;
+
 
 /*****************************************************************************
  *                             Port Declarations                             *
@@ -179,7 +193,7 @@ Altera_UP_Slow_Clock_Generator Clock_Generator_400KHz (
 	.middle_of_low_level		(change_output_bit_en)
 );
 defparam
-	Clock_Generator_400KHz.COUNTER_BITS	= 10, // 4, // 
+	Clock_Generator_400KHz.COUNTER_BITS	= 10, // 4, // use 10 not 20
 	Clock_Generator_400KHz.COUNTER_INC	= 10'h001; // 4'h1; // 
 
 Altera_UP_I2C_AV_Auto_Initialize Auto_Initialize (

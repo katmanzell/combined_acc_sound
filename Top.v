@@ -1,7 +1,7 @@
 `include "macros.vh"
 //Works on 50Mhz clock and Active low reset.
 //Output will come at every 10 ms on a 50Mhz clock. Period!
-module top (
+module Accelerometer_Reader (
 	clk,
 	scl,
 	sda,
@@ -12,7 +12,7 @@ module top (
 	//X_Gyro,
 	//Y_Gyro,
 	//Z_Gyro,
-	flag
+	//flag
 	);
 input clk, rst_n; // Active low reset!
 output scl;
@@ -60,13 +60,13 @@ reg signed [15:0] Z_Acc;
 reg signed [15:0] X_Gy;
 reg signed [15:0] Y_Gy;
 reg signed [15:0] Z_Gy;  
-output flag;
+//output flag;
 
 reg [2: 0] cnt; // cnt = 0, rising scl; cnt = 1, scl high intermediate; cnt = 2, scl falling; cnt = 3, scl low intermediate 
 reg [8: 0] cnt_sum; // generate the desired clock IIC 
 reg scl_r; // clock pulse generated 
 reg [19: 0] cnt_10ms;
-reg flag;
+//reg flag;
 
 always @(posedge clk or negedge rst_n) begin
 	if (~rst_n) begin
@@ -225,7 +225,7 @@ begin
 		GYRO_ZH_READ <= 8'h00;
 		GYRO_ZL_READ <= 8'h00;
 		times <= 5'b0;
-		flag <= 1'b0;
+		//flag <= 1'b0;
 	end
 	else
 	case (state)
@@ -243,7 +243,7 @@ begin
 					sda_link <= 1'b1; // sda output 
 					sda_r <= 1'b0; // low sda, generating start signal 
 					state <= ADD1;
-					flag <= 1'b0;
+					//flag <= 1'b0;
 				end
 			else
 			state <= START1;
@@ -484,7 +484,7 @@ begin
 			//X_Gyro <= X_Gy;
 			//Y_Gyro <= Y_Gy;
 			//Z_Gyro <= Z_Gy;
-			flag <= 1'b1;
+			//flag <= 1'b1;
 		end
 		else begin
 			state <= STOP2;
