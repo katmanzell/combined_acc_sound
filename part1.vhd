@@ -5,40 +5,41 @@ USE work.altera_drums.all;
 
 ENTITY part1 IS
    PORT ( CLOCK_50, CLOCK_27, RESET, AUD_DACLRCK   : IN    STD_LOGIC;
-
-    low_RESET : in std_logic;
-
-    load_ram : in std_logic;
+          low_RESET :in std_logic;
+          load_ram : in std_logic;
           AUD_ADCLRCK, AUD_BCLK, AUD_ADCDAT  : IN    STD_LOGIC;
           I2C_SDAT                      : INOUT STD_LOGIC;
           I2C_SCLK, AUD_DACDAT, AUD_XCK : OUT   STD_LOGIC;
-          --lt_hit : in std_logic;
 			 
-			 --rt_hit : IN STD_LOGIC;
+     --lt_hit : in std_logic;
+	  --rt_hit : IN STD_LOGIC;
+
+--SIMULATION
+--lt_hit_sim, rt_hit_sim : OUT STD_LOGIC;
 			 
 			 --pins for de2lcd
           LCD_RS, LCD_E, LCD_ON, RESET_LED, SEC_LED        : OUT    STD_LOGIC;
           LCD_RW                        : BUFFER STD_LOGIC;
           DATA_BUS                : INOUT    STD_LOGIC_VECTOR(7 DOWNTO 0);
 			 
-			 
+			  
 			 --Forcing write ready
 			 write_ready_forced : in std_logic;
 			 
-			 ------------------------------------------------------------------------------------
+			------------------------------------------------------------------------------------
 			 --flash reader signals
 			 --Address
-			 FL_addr : out std_logic_vector(22 downto 0);
+			FL_addr : out std_logic_vector(22 downto 0);
 			 --Data
-			 FL_dq : in std_logic_vector(7 downto 0);
+			FL_dq : in std_logic_vector(7 downto 0);
 			 --Chip Enable
-			 FL_ce : out std_logic;
+			FL_ce : out std_logic;
 			 --output enable
-			 FL_oe : out std_logic;
+			FL_oe : out std_logic;
 			 --ready/busy
-			 FL_ready : in std_logic;
+			FL_ready : in std_logic;
 			 --write enable
-			 FL_wr_en : out std_logic; -- set always high because we never want to write over it
+			FL_wr_en : out std_logic; -- set always high because we never want to write over it
 			 --------------------------------------------------------------------------------------
 			 
 			 --Sound Connect
@@ -48,13 +49,11 @@ ENTITY part1 IS
 			 scl_rt : out std_logic;
 			 sda_rt : inout std_logic;
 			 
-			 -- debug
-			 hit_happened : out std_logic;
-			 
-			 beat_int : out std_logic_vector(1 downto 0);
-			 
-          -- SIMULATION
-          lt_signal, rt_signal : OUT std_logic_vector(23 downto 0)
+-- SIMULATION
+lt_signal, rt_signal : OUT std_logic_vector(23 downto 0)
+
+--SIMULATION
+--X_ACC_rt_sim, Y_ACC_rt_sim,Z_ACC_rt_sim, X_ACC_lt_sim, Y_ACC_lt_sim,Z_ACC_lt_sim : IN std_logic_vector(15 downto 0)
           );
 END part1;
 
@@ -78,7 +77,6 @@ ARCHITECTURE Behavior OF part1 IS
    signal lt_sin_out, rt_sin_out : std_logic_vector(23 downto 0);
    signal left_full, right_full, left_empty, right_empty, lt_wr_en, rt_wr_en, lt_read_en, rt_read_en : std_logic;
    signal lt_raddr, rt_raddr : std_logic_vector(14 downto 0);
- 
 	signal lt_hit : std_logic;
 	signal rt_hit : std_logic;
  
@@ -87,19 +85,21 @@ BEGIN
 lt_signal <= lt_sin_out;
 rt_signal <= rt_sin_out;
 
+
 -- ACCEL COMPONENTS
 
-scale_clock_map : scale_clock port map (
-	clk_50Mhz => CLOCK_50,
-	rst => low_RESET,
-	clk_Hz => clk_scale
-);
+--scale_clock_map : scale_clock port map (
+--	clk_50Mhz => CLOCK_50,
+--	rst => low_RESET,
+--	clk_Hz => clk_scale
+--);
 
-
+ 
 -- Left
 
 Beat_Generator_lt_map : Beat_Generator port map (
-	clk => clk_scale,
+	--clk => clk_scale,
+	clk => CLOCK_50,
 	rst => low_RESET,
 	X_coordinate => X_ACC_lt,
 	Y_coordinate => Y_Acc_lt,
@@ -121,7 +121,8 @@ Accelerometer_Reader_lt_map : Accelerometer_Reader port map (
 -- Right
 
 Beat_Generator_rt_map : Beat_Generator port map (
-	clk => clk_scale,
+	--clk => clk_scale,
+	clk => CLOCK_50,
 	rst => low_RESET,
 	X_coordinate => X_ACC_rt,
 	Y_coordinate => Y_Acc_rt,
@@ -175,12 +176,12 @@ flash_to_bram_map : flash_to_bram port map(
 			 FL_oe => FL_oe,
 			 FL_ready => FL_ready,
 			 FL_wr_en => FL_wr_en,
-			 --rt_dout => rt_sin_out,
-			 rt_raddr => rt_raddr, -- from sound selector)
-          --lt_dout => lt_sin_out,
+			 rt_dout => rt_sin_out,
+		    rt_raddr => rt_raddr, -- from sound selector)
+          lt_dout => lt_sin_out,
 			 lt_raddr => lt_raddr
 ); -- fix up sound selector ports - get rid of flash stuff we arent using. bypass data in ports
-			 
+	 
 
 			 
 			 
@@ -222,14 +223,15 @@ audio_controller_map : audio_controller port map (CLOCK_50 => CLOCK_50,
                   I2C_SCLK => I2C_SCLK,
                   AUD_DACDAT => AUD_DACDAT,
                   AUD_XCK => AUD_XCK,
-                  lt_fifo_dout => left_data_out,
-                  lt_fifo_rd_en => lt_read_en,
+						
+                 lt_fifo_dout => left_data_out,
+                 lt_fifo_rd_en => lt_read_en,
                   lt_fifo_empty => left_empty,
                   rt_fifo_dout => right_data_out,
                   rt_fifo_rd_en => rt_read_en,
                   rt_fifo_empty => right_empty,
                   --lt_signal => lt_signal,
-                  --rt_signal => rt_signal
+                 --rt_signal => rt_signal
 						write_ready_forced => write_ready_forced
 						);
 
@@ -240,19 +242,11 @@ sound_select_map : sound_selector port map (
 			 rt_hit => rt_hit,
           --lt_vol => lt_vol, rt_vol => rt_vol,
           lt_full => left_full,
-          lt_sound => lt_sin_out,
+          --lt_sound => lt_sin_out,
           lt_wr_en => lt_wr_en,
           lt_addr => lt_raddr,
           rt_full => right_full,
-          rt_sound => rt_sin_out,
-			 
-			 --FL_addr => FL_addr,
-			 --FL_dq => FL_dq,
-			 --FL_ce => FL_ce,
-			 --FL_oe => FL_oe,
-			 --FL_wr_en => FL_wr_en,
-			 --FL_ready => FL_ready,
-			 
+          --rt_sound => rt_sin_out,			 
           rt_wr_en => rt_wr_en,
           rt_addr => rt_raddr
    );

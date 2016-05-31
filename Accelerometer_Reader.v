@@ -8,27 +8,12 @@ module Accelerometer_Reader (
 	rst_n,
 	X_Accel,
 	Y_Accel,
-	Z_Accel,
-	//X_Gyro,
-	//Y_Gyro,
-	//Z_Gyro,
-	//flag
+	Z_Accel
 	);
 input clk, rst_n; // Active low reset!
 output scl;
 inout sda;
-//output [7: 0] ACC_XH_READ; // stored acceleration X-axis high eight
-//output [7: 0] ACC_XL_READ; // store the low eight X-axis acceleration
-//output [7: 0] ACC_YH_READ; // stored acceleration Y-axis high eight 
-//output [7: 0] ACC_YL_READ; // stored acceleration Y-axis low eight 
-//output [7: 0] ACC_ZH_READ; // stored acceleration Z axis high eight 
-//output [7: 0] ACC_ZL_READ ; // store the Z-axis acceleration low eight 
-//output [7: 0] GYRO_XH_READ; // store the X-axis gyroscope high eight 
-//output [7: 0] GYRO_XL_READ; // store low X-axis gyroscope eight 
-//output [7: 0] GYRO_YH_READ; // Y-axis gyroscope store high eight 
-//output [7: 0] GYRO_YL_READ; // store the Y-axis gyroscope low eight 
-//output [7: 0] GYRO_ZH_READ; // store gyroscope Z-axis high eight 
-//output [7: 0] GYRO_ZL_READ; // store gyroscope Z-axis low eight
+
 reg [7: 0] ACC_XH_READ; // stored acceleration X-axis high eight
 reg [7: 0] ACC_XL_READ; // store the low eight X-axis acceleration
 reg [7: 0] ACC_YH_READ; // stored acceleration Y-axis high eight 
@@ -42,18 +27,10 @@ reg [7: 0] GYRO_YL_READ; // store the Y-axis gyroscope low eight
 reg [7: 0] GYRO_ZH_READ; // store gyroscope Z-axis high eight 
 reg [7: 0] GYRO_ZL_READ; // store gyroscope Z-axis low eight
 
-output [15:0] X_Accel;
-output [15:0] Y_Accel;
-output [15:0] Z_Accel;
-//output [15:0] X_Gyro;
-//output [15:0] Y_Gyro;
-//output [15:0] Z_Gyro;
-reg signed [15:0] X_Accel;
-reg signed [15:0] Y_Accel;
-reg signed [15:0] Z_Accel;
-//reg signed [15:0] X_Gyro;
-//reg signed [15:0] Y_Gyro;
-//reg signed [15:0] Z_Gyro;
+output reg signed[15:0] X_Accel;
+output reg signed[15:0] Y_Accel;
+output reg signed[15:0] Z_Accel;
+
 reg signed [15:0] X_Acc;
 reg signed [15:0] Y_Acc;
 reg signed [15:0] Z_Acc;

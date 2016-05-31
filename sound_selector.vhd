@@ -56,10 +56,10 @@ ARCHITECTURE behavioral OF sound_selector IS
 --  constant RT_LOOP : integer := 5;
 
  -- sin wave stuff
-  constant LT_MAX : integer := sin_values'length;   -- use 55391 for using the snare wave in flash
-  constant LT_LOOP : integer := 1000000;
-  constant RT_MAX : integer := sin_values'length;   --sin_values'length;
-  constant RT_LOOP : integer := 1000000;
+  constant LT_MAX : integer := 55391;--sin_values'length;   -- use 55391 for using the snare wave in flash
+  constant LT_LOOP : integer := 5; --2000000
+  constant RT_MAX : integer := 55391;--sin_values'length;   --sin_values'length;
+  constant RT_LOOP : integer := 1;--1000000;
   
   constant lt_start_addr : integer := 0;
   constant rt_start_addr : integer := 0;
