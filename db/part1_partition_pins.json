@@ -1,0 +1,429 @@
+{
+	"partitions" : [
+		{
+			"name" : "Top",
+			"pins" : [
+				{
+					"name" : "I2C_SCLK",
+					"strict" : false
+				},
+				{
+					"name" : "AUD_DACDAT",
+					"strict" : false
+				},
+				{
+					"name" : "LCD_RS",
+					"strict" : false
+				},
+				{
+					"name" : "LCD_E",
+					"strict" : false
+				},
+				{
+					"name" : "RESET_LED",
+					"strict" : false
+				},
+				{
+					"name" : "FL_addr[0]",
+					"strict" : false
+				},
+				{
+					"name" : "FL_addr[1]",
+					"strict" : false
+				},
+				{
+					"name" : "FL_addr[2]",
+					"strict" : false
+				},
+				{
+					"name" : "FL_addr[3]",
+					"strict" : false
+				},
+				{
+					"name" : "FL_addr[4]",
+					"strict" : false
+				},
+				{
+					"name" : "FL_addr[5]",
+					"strict" : false
+				},
+				{
+					"name" : "FL_addr[6]",
+					"strict" : false
+				},
+				{
+					"name" : "FL_addr[7]",
+					"strict" : false
+				},
+				{
+					"name" : "FL_addr[8]",
+					"strict" : false
+				},
+				{
+					"name" : "FL_addr[9]",
+					"strict" : false
+				},
+				{
+					"name" : "FL_addr[10]",
+					"strict" : false
+				},
+				{
+					"name" : "FL_addr[11]",
+					"strict" : false
+				},
+				{
+					"name" : "FL_addr[12]",
+					"strict" : false
+				},
+				{
+					"name" : "FL_addr[13]",
+					"strict" : false
+				},
+				{
+					"name" : "FL_addr[14]",
+					"strict" : false
+				},
+				{
+					"name" : "FL_addr[15]",
+					"strict" : false
+				},
+				{
+					"name" : "FL_addr[16]",
+					"strict" : false
+				},
+				{
+					"name" : "FL_addr[17]",
+					"strict" : false
+				},
+				{
+					"name" : "FL_addr[18]",
+					"strict" : false
+				},
+				{
+					"name" : "FL_addr[19]",
+					"strict" : false
+				},
+				{
+					"name" : "FL_addr[20]",
+					"strict" : false
+				},
+				{
+					"name" : "FL_addr[21]",
+					"strict" : false
+				},
+				{
+					"name" : "FL_addr[22]",
+					"strict" : false
+				},
+				{
+					"name" : "FL_ce",
+					"strict" : false
+				},
+				{
+					"name" : "scl_lt",
+					"strict" : false
+				},
+				{
+					"name" : "scl_rt",
+					"strict" : false
+				},
+				{
+					"name" : "lt_signal[0]",
+					"strict" : false
+				},
+				{
+					"name" : "lt_signal[1]",
+					"strict" : false
+				},
+				{
+					"name" : "lt_signal[2]",
+					"strict" : false
+				},
+				{
+					"name" : "lt_signal[3]",
+					"strict" : false
+				},
+				{
+					"name" : "lt_signal[4]",
+					"strict" : false
+				},
+				{
+					"name" : "lt_signal[5]",
+					"strict" : false
+				},
+				{
+					"name" : "lt_signal[6]",
+					"strict" : false
+				},
+				{
+					"name" : "lt_signal[7]",
+					"strict" : false
+				},
+				{
+					"name" : "lt_signal[8]",
+					"strict" : false
+				},
+				{
+					"name" : "lt_signal[9]",
+					"strict" : false
+				},
+				{
+					"name" : "lt_signal[10]",
+					"strict" : false
+				},
+				{
+					"name" : "lt_signal[11]",
+					"strict" : false
+				},
+				{
+					"name" : "lt_signal[12]",
+					"strict" : false
+				},
+				{
+					"name" : "lt_signal[13]",
+					"strict" : false
+				},
+				{
+					"name" : "lt_signal[14]",
+					"strict" : false
+				},
+				{
+					"name" : "lt_signal[15]",
+					"strict" : false
+				},
+				{
+					"name" : "lt_signal[16]",
+					"strict" : false
+				},
+				{
+					"name" : "lt_signal[17]",
+					"strict" : false
+				},
+				{
+					"name" : "lt_signal[18]",
+					"strict" : false
+				},
+				{
+					"name" : "lt_signal[19]",
+					"strict" : false
+				},
+				{
+					"name" : "lt_signal[20]",
+					"strict" : false
+				},
+				{
+					"name" : "lt_signal[21]",
+					"strict" : false
+				},
+				{
+					"name" : "lt_signal[22]",
+					"strict" : false
+				},
+				{
+					"name" : "lt_signal[23]",
+					"strict" : false
+				},
+				{
+					"name" : "rt_signal[0]",
+					"strict" : false
+				},
+				{
+					"name" : "rt_signal[1]",
+					"strict" : false
+				},
+				{
+					"name" : "rt_signal[2]",
+					"strict" : false
+				},
+				{
+					"name" : "rt_signal[3]",
+					"strict" : false
+				},
+				{
+					"name" : "rt_signal[4]",
+					"strict" : false
+				},
+				{
+					"name" : "rt_signal[5]",
+					"strict" : false
+				},
+				{
+					"name" : "rt_signal[6]",
+					"strict" : false
+				},
+				{
+					"name" : "rt_signal[7]",
+					"strict" : false
+				},
+				{
+					"name" : "rt_signal[8]",
+					"strict" : false
+				},
+				{
+					"name" : "rt_signal[9]",
+					"strict" : false
+				},
+				{
+					"name" : "rt_signal[10]",
+					"strict" : false
+				},
+				{
+					"name" : "rt_signal[11]",
+					"strict" : false
+				},
+				{
+					"name" : "rt_signal[12]",
+					"strict" : false
+				},
+				{
+					"name" : "rt_signal[13]",
+					"strict" : false
+				},
+				{
+					"name" : "rt_signal[14]",
+					"strict" : false
+				},
+				{
+					"name" : "rt_signal[15]",
+					"strict" : false
+				},
+				{
+					"name" : "rt_signal[16]",
+					"strict" : false
+				},
+				{
+					"name" : "rt_signal[17]",
+					"strict" : false
+				},
+				{
+					"name" : "rt_signal[18]",
+					"strict" : false
+				},
+				{
+					"name" : "rt_signal[19]",
+					"strict" : false
+				},
+				{
+					"name" : "rt_signal[20]",
+					"strict" : false
+				},
+				{
+					"name" : "rt_signal[21]",
+					"strict" : false
+				},
+				{
+					"name" : "rt_signal[22]",
+					"strict" : false
+				},
+				{
+					"name" : "rt_signal[23]",
+					"strict" : false
+				},
+				{
+					"name" : "I2C_SDAT",
+					"strict" : false
+				},
+				{
+					"name" : "DATA_BUS[0]",
+					"strict" : false
+				},
+				{
+					"name" : "DATA_BUS[1]",
+					"strict" : false
+				},
+				{
+					"name" : "DATA_BUS[2]",
+					"strict" : false
+				},
+				{
+					"name" : "DATA_BUS[3]",
+					"strict" : false
+				},
+				{
+					"name" : "DATA_BUS[4]",
+					"strict" : false
+				},
+				{
+					"name" : "DATA_BUS[5]",
+					"strict" : false
+				},
+				{
+					"name" : "DATA_BUS[6]",
+					"strict" : false
+				},
+				{
+					"name" : "DATA_BUS[7]",
+					"strict" : false
+				},
+				{
+					"name" : "sda_lt",
+					"strict" : false
+				},
+				{
+					"name" : "sda_rt",
+					"strict" : false
+				},
+				{
+					"name" : "low_RESET",
+					"strict" : false
+				},
+				{
+					"name" : "RESET",
+					"strict" : false
+				},
+				{
+					"name" : "CLOCK_50",
+					"strict" : false
+				},
+				{
+					"name" : "load_ram",
+					"strict" : false
+				},
+				{
+					"name" : "AUD_BCLK",
+					"strict" : false
+				},
+				{
+					"name" : "AUD_DACLRCK",
+					"strict" : false
+				},
+				{
+					"name" : "FL_dq[0]",
+					"strict" : false
+				},
+				{
+					"name" : "FL_dq[1]",
+					"strict" : false
+				},
+				{
+					"name" : "FL_dq[2]",
+					"strict" : false
+				},
+				{
+					"name" : "FL_dq[3]",
+					"strict" : false
+				},
+				{
+					"name" : "FL_dq[4]",
+					"strict" : false
+				},
+				{
+					"name" : "FL_dq[5]",
+					"strict" : false
+				},
+				{
+					"name" : "FL_dq[6]",
+					"strict" : false
+				},
+				{
+					"name" : "FL_dq[7]",
+					"strict" : false
+				},
+				{
+					"name" : "write_ready_forced",
+					"strict" : false
+				}
+			]
+		}
+	]
+}
